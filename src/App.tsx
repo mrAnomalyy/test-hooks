@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react';
-import './App.css';
 import Counter, { ICounterState } from './components/Counter';
 import Switcher from './components/Switcher';
 import TotalClicksCounter from './components/TotalClicksCounter';
