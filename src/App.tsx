@@ -1,14 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import './App.css';
-import Counter from './components/Counter';
+import Counter, { ICounterState } from './components/Counter';
 import Switcher from './components/Switcher';
 import TotalClicksCounter from './components/TotalClicksCounter';
 import XmasSwitcher from "./components/XmasSwitcher";
 
 export const AppContext = React.createContext({ xmas: false });
 
+export enum CounterAction {
+  INCREASE = "INCREASE",
+  DECREASE = "DECREASE",
+  RESET = "RESET",
+}
+
+export type ICounterAction = {
+  type: CounterAction;
+};
+
+export interface IAppState {
+  counter: ICounterState;
+}
+
+const counterReducer = ({ state }: ICounterState, action: ICounterAction): ICounterState => {
+  switch (action.type) {
+    case CounterAction.INCREASE:
+      return { state: state + 1 };
+    case CounterAction.DECREASE:
+      return { state: state - 1};
+    case CounterAction.RESET:
+      return { state: 0 };
+  }
+}
+
 function App() {
-  const [counter, setCounter] = useState({ state: 0 });
+  const [counter, setCounter] = useReducer(counterReducer, { state: 0 });
   const [switcher, setSwitcher] = useState({ state: true });
   const [totalClicks, setTotalClicks] = useState(0);
   const [xmas, setXmasState] = useState(false);
